@@ -69,10 +69,10 @@ class JobControl:
 
     def get_log(self,filename):
         if os.path.isfile(os.path.join(os.path.expanduser('~').replace('home','batch'),
-                                       'LOG',filename+'.out')):
+                                       'LOG',filename)):
             os.system(os.environ.get('EDITOR','vi')+' '+\
                       os.path.join(os.path.expanduser('~').replace('home','batch'),
-                                   'LOG',filename+'.out'))
+                                   'LOG',filename))
         elif os.path.isfile(filename):
             os.system(os.environ.get('EDITOR','vi')+' '+filename)
         
