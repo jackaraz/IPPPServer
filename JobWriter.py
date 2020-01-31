@@ -38,7 +38,7 @@ class JobWriter:
             file.write('#SBATCH --mail-user='+self.mail+'\n')
         file.write('#SBATCH --error="'+os.path.join(self.log,filename+'.err')+'"\n')
         file.write('#SBATCH --output="'+os.path.join(self.log,filename+'.out')+'\n\n')
-        occupied = self.occupied_list()
+        occupied = ','.join(self.occupied_list())
         if occupied != '':
             file.write('#SBATCH --exclude='+occupied+'\n\n')
 
@@ -51,6 +51,7 @@ class JobWriter:
         file.write(' '.join(run_command)+'\n')
         file.write('exit 0\n')
         file.close()
+        return True
 
     def occupied_list(self):
         """
@@ -68,9 +69,9 @@ class JobWriter:
             if not i in ls:
                 ls.append(i)
         if len(ls) >= 40:
-            ls = [x for x in ls if 'ip3-ws' not in x]
-        txt = ','.join(ls)
-        return txt
+            return [x for x in ls if 'ip3-ws' not in x]
+        #txt = ','.join(ls)
+        return ls
 
     def Submit(self):
         os.system('sbach '+self.filename+'.sh > temp.txt')
