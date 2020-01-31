@@ -1,12 +1,16 @@
 # IPPP-Server
  For job submission in IPPP server
 
+* Requirements
+
+  Python 2.7 or higher...
+  Tested in Python 3.6.8
 
 * JobWriter:
 
 Job writer is a tool to avoid submitting job to the same machine with other people. 
 
-```
+```python
 import sys
 sys.path.append('IPPP-Server')
 from JobWriter import *
@@ -22,7 +26,7 @@ This is to control the jobs that are already submitted. JobWriter creates a subm
 which includes the names and the job ID's of the submitted jobs. If submit.log can not be found
 all jobs which are running by the user are taken into account.
 
-```
+```python
 import sys
 sys.path.append('IPPP-Server')
 from JobWriter import *
