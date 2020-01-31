@@ -3,8 +3,8 @@
 """
 Created on Thu Jan 30 17:13:27 2020
 
-@author: jackaraz
-contact: jackaraz@gmail.com
+@author  : jackaraz
+@contact : Jack Y. Araz <jackaraz@gmail.com>
 """
 
 import os
