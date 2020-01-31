@@ -1,4 +1,4 @@
-# IPPP-Server
+# IPPPServer
  For job submission in IPPP server
 
 * Requirements
@@ -30,7 +30,7 @@ which includes the names and the job ID's of the submitted jobs. If submit.log c
 all jobs which are running by the user are taken into account.
 
 ```python
-from IPPPServer.JobWriter import *
+from IPPPServer.JobControl import *
 
 job = JobControl(submit_log='PATH/WHERE/SUBMITLOG/LIVES/submit.log')
 job.get_status()
