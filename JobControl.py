@@ -31,10 +31,12 @@ class JobControl:
             self.myJobID = [int(x.split()[0]) for x in jobs if x.split()[3] == me]
             time         = [x.split()[5] for x in jobs if x.split()[3] == me]
             job_names    = [x.split()[2] for x in jobs if x.split()[3] == me]
+            machine      = [x.split()[7] for x in jobs if x.split()[3] == me]
         else:
             self.myJobID = jobID
             time         = [x.split()[5] for x in jobs]
             job_names    = [x.split()[2] for x in jobs]
+            machine      = [x.split()[7] for x in jobs]
 
         log = []
         if self.submit_log == []:
@@ -45,7 +47,8 @@ class JobControl:
 
         for name, ID in log:
             if ID in self.myJobID:
-                print(name+' is running... Time : '+time[self.myJobID.index(ID)])
+                print(name+' is running... Time : '+time[self.myJobID.index(ID)]+\
+                      ' Machine : '+machine[self.myJobID.index(ID)])
 
     def cancel(self,*args):
         for name, ID in self.submit_log:
