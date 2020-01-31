@@ -55,6 +55,6 @@ BKG_Haajjj_12 cancelled...
 It can also run through terminal. To get the status
 
 ```bash
-python JobWriter.py status /PATH/TO/submit.log
-python JobWriter.py cancel /PATH/TO/submit.log BKG_Haajjj_11 BKG_Haajjj_12
+./JobControl.py status /PATH/TO/submit.log
+./JobControl.py cancel /PATH/TO/submit.log BKG_Haajjj_11 BKG_Haajjj_12
 ```
