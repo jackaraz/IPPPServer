@@ -33,7 +33,8 @@ from JobWriter import *
 
 job = JobControl(submit_log='PATH/WHERE/SUBMITLOG/LIVES/submit.log')
 job.get_status()
-
+```
+```bash
 >BKG_Haajjj_11 is running... Time : 1-23:29:55
 >BKG_Haajjj_12 is running... Time : 1-23:29:51
 >BKG_Haajjj_13 is running... Time : 1-23:29:46
@@ -41,9 +42,11 @@ job.get_status()
 >BKG_Haajjj_16 is running... Time : 1-23:29:30
 >BKG_Haajjj_18 is running... Time : 1-23:29:20
 >BKG_Haajjj_19 is running... Time : 1-23:29:14
-
+```
+```python
 job.cancel(BKG_Haajjj_11,BKG_Haajjj_12)
-
+```
+```bash
 >BKG_Haajjj_11 cancelled...
 >BKG_Haajjj_12 cancelled...
 ```
