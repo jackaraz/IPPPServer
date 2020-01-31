@@ -37,7 +37,7 @@ class JobWriter:
             file.write('#SBATCH --mail-type=ALL\n')
             file.write('#SBATCH --mail-user='+self.mail+'\n')
         file.write('#SBATCH --error="'+os.path.join(self.log,filename+'.err')+'"\n')
-        file.write('#SBATCH --output="'+os.path.join(self.log,filename+'.out')+'\n\n')
+        file.write('#SBATCH --output="'+os.path.join(self.log,filename+'.out')+'"\n\n')
         occupied = ','.join(self.occupied_list())
         if occupied != '':
             file.write('#SBATCH --exclude='+occupied+'\n\n')
