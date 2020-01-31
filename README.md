@@ -6,14 +6,17 @@
   Python 2.7 or higher...
   Tested in Python 3.6.8
 
+PS: you might want to add IPPPServer to the PYTHONPATH to import it. 
+```bash
+export PYTHONPATH=$PYTHONPATH:/path/to/IPPPServer
+```
+
 * JobWriter:
 
 Job writer is a tool to avoid submitting job to the same machine with other people. 
 
 ```python
-import sys
-sys.path.append('IPPP-Server')
-from JobWriter import *
+from IPPPServer.JobWriter import *
 
 job = JobWriter('PATH/WHERE/CODE/LIVES',['./run_me'])
 job.write('myFile',command=['some','args'])
@@ -27,9 +30,7 @@ which includes the names and the job ID's of the submitted jobs. If submit.log c
 all jobs which are running by the user are taken into account.
 
 ```python
-import sys
-sys.path.append('IPPP-Server')
-from JobWriter import *
+from IPPPServer.JobWriter import *
 
 job = JobControl(submit_log='PATH/WHERE/SUBMITLOG/LIVES/submit.log')
 job.get_status()
