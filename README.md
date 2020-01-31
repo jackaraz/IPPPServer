@@ -1,4 +1,4 @@
-# IPPP-Server
+# IPPPServer
  For job submission in IPPP server
 
 * Requirements
@@ -6,14 +6,17 @@
   Python 2.7 or higher...
   Tested in Python 3.6.8
 
+PS: you might want to add IPPPServer to the PYTHONPATH to import it. 
+```bash
+export PYTHONPATH=$PYTHONPATH:/path/to/IPPPServer
+```
+
 * JobWriter:
 
 Job writer is a tool to avoid submitting job to the same machine with other people. 
 
 ```python
-import sys
-sys.path.append('IPPP-Server')
-from JobWriter import *
+from IPPPServer.JobWriter import *
 
 job = JobWriter('PATH/WHERE/CODE/LIVES',['./run_me'])
 job.write('myFile',command=['some','args'])
@@ -27,28 +30,26 @@ which includes the names and the job ID's of the submitted jobs. If submit.log c
 all jobs which are running by the user are taken into account.
 
 ```python
-import sys
-sys.path.append('IPPP-Server')
-from JobWriter import *
+from IPPPServer.JobControl import *
 
 job = JobControl(submit_log='PATH/WHERE/SUBMITLOG/LIVES/submit.log')
 job.get_status()
 ```
 ```bash
->BKG_Haajjj_11 is running... Time : 1-23:29:55
->BKG_Haajjj_12 is running... Time : 1-23:29:51
->BKG_Haajjj_13 is running... Time : 1-23:29:46
->BKG_Haajjj_14 is running... Time : 1-23:29:40
->BKG_Haajjj_16 is running... Time : 1-23:29:30
->BKG_Haajjj_18 is running... Time : 1-23:29:20
->BKG_Haajjj_19 is running... Time : 1-23:29:14
+BKG_Haajjj_11 is running... Time : 2-02:38:42 Machine : d64
+BKG_Haajjj_12 is running... Time : 2-02:38:38 Machine : d65
+BKG_Haajjj_13 is running... Time : 2-02:38:33 Machine : d24
+BKG_Haajjj_14 is running... Time : 2-02:38:27 Machine : d25
+BKG_Haajjj_16 is running... Time : 2-02:38:17 Machine : d26
+BKG_Haajjj_18 is running... Time : 2-02:38:07 Machine : d44
+BKG_Haajjj_19 is running... Time : 2-02:38:01 Machine : d45
 ```
 ```python
 job.cancel(BKG_Haajjj_11,BKG_Haajjj_12)
 ```
 ```bash
->BKG_Haajjj_11 cancelled...
->BKG_Haajjj_12 cancelled...
+BKG_Haajjj_11 cancelled...
+BKG_Haajjj_12 cancelled...
 ```
 
 It can also run through terminal. To get the status
