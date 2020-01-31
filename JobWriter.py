@@ -64,7 +64,7 @@ class JobWriter:
         ls = ls[1:len(ls)]
         ls_temp = [x.split()[len(x.split())-1] for x in ls if not '(' in x]
         ls = []
-        os.system('rm log.txt')
+        os.remove('log.txt')
         for i in ls_temp:
             if not i in ls:
                 ls.append(i)
@@ -73,12 +73,14 @@ class JobWriter:
         #txt = ','.join(ls)
         return ls
 
-    def Submit(self):
-        os.system('sbach '+self.filename+'.sh > temp.txt')
+    def Submit(self,remove_after_submission=False):
+        os.system('sbatch '+self.filename+'.sh > temp.txt')
         with open('temp.txt','r') as f:
             temp = f.readlines()
         temp = temp[0].split()[len(temp[0].split())-1]
         submit_log = open('submit.log','a+')
         submit_log.write(self.filename+' '+temp+'\n')
         submit_log.close()
-        os.system('rm temp.txt')
+        os.remove('temp.txt')
+        if remove_after_submission:
+            os.remove(self.filename+'.sh')
