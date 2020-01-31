@@ -8,6 +8,7 @@ Created on Thu Jan 30 17:13:27 2020
 """
 
 import os
+from JobControl import JobControl
 
 class JobWriter:
     def __init__(self,path,core_command, **kwargs):
@@ -28,6 +29,8 @@ class JobWriter:
                                                   'LOG'))
         if not os.path.isdir(self.log):
             os.mkdir(self.log)
+
+        self.control = JobControl().update_log()
 
     def write(self,filename,**kwargs):
         self.filename = filename

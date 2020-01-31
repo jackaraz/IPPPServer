@@ -12,12 +12,18 @@ import os
 class JobControl:
     def __init__(self,**kwargs):
         self.submit_log = []
-        if os.path.isfile(kwargs.get('submit_log','submit.log')):
+        self.log_file   = kwargs.get('submit_log','submit.log')
+        if os.path.isfile(self.log_file):
             with open(kwargs.get('submit_log','submit.log'),'r') as f:
                 submit_log = f.readlines()
             self.submit_log = [(x.split()[0],int(x.split()[1])) for x in submit_log]
 
-    def get_status(self):
+    def get_status(self, print_out=False):
+        if self.submit_log == []:
+            if print_out:
+                pass
+            else:
+                return []
         os.system('squeue > tmp.log')
         with open('tmp.log','r') as f:
             jobs = f.readlines()
@@ -40,15 +46,18 @@ class JobControl:
 
         log = []
         if self.submit_log == []:
-            for name, ID in zip(job_names,self.myJobID):
-                log.append((name,ID))
+            for name, ID, tm, ws in zip(job_names,self.myJobID, time, machine):
+                log.append((ID, name, tm, ws))
         else:
             log = self.submit_log
 
-        for name, ID in log:
-            if ID in self.myJobID:
-                print(name+' is running... Time : '+time[self.myJobID.index(ID)]+\
-                      ' Machine : '+machine[self.myJobID.index(ID)])
+        if print_out:
+            for ID, name, time, machine in log:
+                if ID in self.myJobID:
+                    print(name+' is running... Time : '+time+\
+                          ' Machine : '+machine)
+            return 
+        return log
 
     def cancel(self,*args):
         for name, ID in self.submit_log:
@@ -75,7 +84,19 @@ class JobControl:
                                    'LOG',filename))
         elif os.path.isfile(filename):
             os.system(os.environ.get('EDITOR','vi')+' '+filename)
-        
+
+    def update_log(self):
+        log = self.get_status()
+        if log == [] and os.path.isfile(self.log_file):
+            os.remove(self.log_file)
+        elif os.path.isfile(self.log_file):
+            output = open(self.log_file, 'w')
+            for ID, name, time, machine in log:
+                output.write(name+' '+str(ID)+'\n')
+            output.close()
+            return True
+        return True
+                
 
 
 
@@ -93,7 +114,7 @@ if __name__=='__main__':
     elif sys.argv[1].startswith('status'):
         if os.path.isfile(sys.argv[2]):
             job = JobControl(submit_log=sys.argv[2])
-            job.get_status()
+            job.get_status(print_out=True)
         else:
             print('Can not find '+sys.argv[2])
 
