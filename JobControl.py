@@ -66,3 +66,25 @@ class JobControl:
                 except:
                     print('Can not cancel '+name)
         return True
+
+
+
+
+
+if __name__=='__main__':
+    import sys
+    if sys.argv[1].startswith('cancel'):
+        if os.path.isfile(sys.argv[2]):
+            job = JobControl(submit_log=sys.argv[2])
+            if len(sys.argv) > 3:
+                job.cancel(sys.argv[3:])
+            else:
+                job.cancel()
+        else:
+            print('Can not find '+sys.argv[2])
+    elif sys.argv[1].startswith('status'):
+        if os.path.isfile(sys.argv[2]):
+            job = JobControl(submit_log=sys.argv[2])
+            job.get_status()
+        else:
+            print('Can not find '+sys.argv[2])
