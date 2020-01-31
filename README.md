@@ -20,6 +20,8 @@ from IPPPServer.JobWriter import *
 
 job = JobWriter('PATH/WHERE/CODE/LIVES',['./run_me'])
 job.write('myFile',command=['some','args'])
+# path and command args are additional to the initial path and command
+# and will be attached to the initialized path and command
 job.Submit()
 ```
 
