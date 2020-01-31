@@ -36,20 +36,20 @@ job = JobControl(submit_log='PATH/WHERE/SUBMITLOG/LIVES/submit.log')
 job.get_status()
 ```
 ```bash
->BKG_Haajjj_11 is running... Time : 1-23:29:55
->BKG_Haajjj_12 is running... Time : 1-23:29:51
->BKG_Haajjj_13 is running... Time : 1-23:29:46
->BKG_Haajjj_14 is running... Time : 1-23:29:40
->BKG_Haajjj_16 is running... Time : 1-23:29:30
->BKG_Haajjj_18 is running... Time : 1-23:29:20
->BKG_Haajjj_19 is running... Time : 1-23:29:14
+BKG_Haajjj_11 is running... Time : 2-02:38:42 Machine : d64
+BKG_Haajjj_12 is running... Time : 2-02:38:38 Machine : d65
+BKG_Haajjj_13 is running... Time : 2-02:38:33 Machine : d24
+BKG_Haajjj_14 is running... Time : 2-02:38:27 Machine : d25
+BKG_Haajjj_16 is running... Time : 2-02:38:17 Machine : d26
+BKG_Haajjj_18 is running... Time : 2-02:38:07 Machine : d44
+BKG_Haajjj_19 is running... Time : 2-02:38:01 Machine : d45
 ```
 ```python
 job.cancel(BKG_Haajjj_11,BKG_Haajjj_12)
 ```
 ```bash
->BKG_Haajjj_11 cancelled...
->BKG_Haajjj_12 cancelled...
+BKG_Haajjj_11 cancelled...
+BKG_Haajjj_12 cancelled...
 ```
 
 It can also run through terminal. To get the status
