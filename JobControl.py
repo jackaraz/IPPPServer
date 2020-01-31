@@ -96,7 +96,7 @@ class JobControl:
             output.close()
             return True
         return True
-                
+
 
 
 
