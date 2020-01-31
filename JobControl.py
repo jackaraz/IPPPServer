@@ -11,13 +11,12 @@ import os
 
 class JobControl:
     def __init__(self,**kwargs):
+        self.submit_log = []
         if os.path.isfile(kwargs.get('submit_log','submit.log')):
             with open(kwargs.get('submit_log','submit.log'),'r') as f:
                 submit_log = f.readlines()
             self.submit_log = [(x.split()[0],int(x.split()[1])) for x in submit_log]
-        else:
-            return False
-    
+
     def get_status(self):
         os.system('squeue > tmp.log')
         with open('tmp.log','r') as f:
@@ -31,11 +30,20 @@ class JobControl:
         if me != False:
             self.myJobID = [int(x.split()[0]) for x in jobs if x.split()[3] == me]
             time         = [x.split()[5] for x in jobs if x.split()[3] == me]
+            job_names    = [x.split()[2] for x in jobs if x.split()[3] == me]
         else:
             self.myJobID = jobID
             time         = [x.split()[5] for x in jobs]
+            job_names    = [x.split()[2] for x in jobs]
 
-        for name, ID in self.submit_log:
+        log = []
+        if self.submit_log == []:
+            for name, ID in zip(job_names,self.myJobID):
+                log.append((name,ID))
+        else:
+            log = self.submit_log
+
+        for name, ID in log:
             if ID in self.myJobID:
                 print(name+' is running... Time : '+time[self.myJobID.index(ID)])
 
@@ -45,13 +53,13 @@ class JobControl:
                 if name in args:
                     try:
                         os.system('scancel '+str(ID))
-                        print(name+' canceled...')
+                        print(name+' cancelled...')
                     except:
                         print('Can not cancel '+name)
             else:
                 try:
                     os.system('scancel '+str(ID))
-                    print(name+' canceled...')
+                    print(name+' cancelled...')
                 except:
                     print('Can not cancel '+name)
         return True
