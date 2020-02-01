@@ -7,16 +7,23 @@ Created on Thu Jan 30 17:13:27 2020
 @contact : Jack Y. Araz <jackaraz@gmail.com>
 """
 
-import os
+import os, logging
 from JobControl import JobControl
+
 
 class JobWriter:
     def __init__(self,path,core_command, **kwargs):
         """
             Configure initial job writer
         """
+        self.log = logging.getLogger(__name__)
+        if kwargs.get('debug',False):
+            self.log.setLevel(logging.DEBUG)
+        else:
+            self.log.setLevel(logging.INFO)
+
         if not os.path.isdir(path):
-            print('Hmm can not find '+path)
+            raise Warning('Hmm can not find '+path)
         self.core_path = path
         # path where the initial code to be run lives
         if type(core_command) == str:

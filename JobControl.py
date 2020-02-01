@@ -7,10 +7,15 @@ Created on Thu Jan 30 22:00:25 2020
 @contact : Jack Y. Araz <jackaraz@gmail.com>
 """
 
-import os
+import os, logging
 
 class JobControl:
     def __init__(self,**kwargs):
+        self.log = logging.getLogger(__name__)
+        if kwargs.get('debug',False):
+            self.log.setLevel(logging.DEBUG)
+        else:
+            self.log.setLevel(logging.INFO)
         self.submit_log = []
         self.log_file   = kwargs.get('submit_log','submit.log')
         if os.path.isfile(self.log_file):
@@ -54,8 +59,8 @@ class JobControl:
         if print_out:
             for ID, name, time, machine in log:
                 if ID in self.myJobID:
-                    print(name+' is running... Time : '+time+\
-                          ' Machine : '+machine)
+                    self.log.info(name+' is running... Time : '+time+\
+                                  ' Machine : '+machine)
             return 
         return log
 
@@ -65,15 +70,15 @@ class JobControl:
                 if name in args:
                     try:
                         os.system('scancel '+str(ID))
-                        print(name+' cancelled...')
+                        self.log.info(name+' cancelled...')
                     except:
-                        print('Can not cancel '+name)
+                        self.log.warning('Can not cancel '+name)
             else:
                 try:
                     os.system('scancel '+str(ID))
-                    print(name+' cancelled...')
+                    self.log.info(name+' cancelled...')
                 except:
-                    print('Can not cancel '+name)
+                    self.log.warning('Can not cancel '+name)
         return True
 
     def get_log(self,filename):
