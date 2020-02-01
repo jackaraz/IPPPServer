@@ -107,7 +107,7 @@ class JobControl:
 
 if __name__=='__main__':
     import sys
-    log = logging.getLogger(__name__)
+    log = logging.getLogger('JobControl')
     log.setLevel(logging.INFO)
     if sys.argv[1].startswith('cancel'):
         if os.path.isfile(sys.argv[2]):
