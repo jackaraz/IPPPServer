@@ -107,7 +107,7 @@ class JobControl:
 
 if __name__=='__main__':
     import sys
-    log = logging.getLogger('JobControl')
+    log = logging.getLogger(__name__)
     log.setLevel(logging.INFO)
     if sys.argv[1].startswith('cancel'):
         if os.path.isfile(sys.argv[2]):
@@ -124,6 +124,8 @@ if __name__=='__main__':
             job.get_status(print_out=True)
         else:
             log.error('Can not find '+sys.argv[2])
+    else:
+        log.error('No option called '+sys.argv[1])
 
 
 
