@@ -117,15 +117,15 @@ if __name__=='__main__':
             else:
                 job.cancel()
         else:
-            log.error('Can not find '+sys.argv[2])
+            logging.getLogger(__name__).error('Can not find '+sys.argv[2])
     elif sys.argv[1].startswith('status'):
         if os.path.isfile(sys.argv[2]):
             job = JobControl(submit_log=sys.argv[2])
             job.get_status(print_out=True)
         else:
-            log.error('Can not find '+sys.argv[2])
+            logging.getLogger(__name__).error('Can not find '+sys.argv[2])
     else:
-        log.error('No option called '+sys.argv[1])
+        logging.getLogger(__name__).error('No option called '+sys.argv[1])
 
 
 
