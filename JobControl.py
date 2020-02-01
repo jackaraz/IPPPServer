@@ -107,6 +107,8 @@ class JobControl:
 
 if __name__=='__main__':
     import sys
+    log = logging.getLogger(__name__)
+    log.setLevel(logging.INFO)
     if sys.argv[1].startswith('cancel'):
         if os.path.isfile(sys.argv[2]):
             job = JobControl(submit_log=sys.argv[2])
@@ -115,13 +117,13 @@ if __name__=='__main__':
             else:
                 job.cancel()
         else:
-            print('Can not find '+sys.argv[2])
+            log.error('Can not find '+sys.argv[2])
     elif sys.argv[1].startswith('status'):
         if os.path.isfile(sys.argv[2]):
             job = JobControl(submit_log=sys.argv[2])
             job.get_status(print_out=True)
         else:
-            print('Can not find '+sys.argv[2])
+            log.error('Can not find '+sys.argv[2])
 
 
 
