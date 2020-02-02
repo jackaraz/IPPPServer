@@ -11,11 +11,11 @@ import os, logging
 
 class JobControl:
     def __init__(self,**kwargs):
-        self.log = logging.getLogger(__name__)
+        self.logger = logging.getLogger(__name__)
         if kwargs.get('debug',False):
-            self.log.setLevel(logging.DEBUG)
+            self.logger.setLevel(logging.DEBUG)
         else:
-            self.log.setLevel(logging.INFO)
+            self.logger.setLevel(logging.INFO)
         self.submit_log = []
         self.log_file   = kwargs.get('submit_log','submit.log')
         if os.path.isfile(self.log_file):
@@ -50,15 +50,16 @@ class JobControl:
             machine      = [x.split()[7] for x in jobs]
 
         log = []
-
+        submit_log_ID = [x[1] for x in self.submit_log]
         for name, ID, tm, ws in zip(job_names,self.myJobID, time, machine):
-            log.append((ID, name, tm, ws))
+            if ID in submit_log_ID:
+                log.append((ID, name, tm, ws))
 
 
         if print_out:
             for ID, name, time, machine in log:
                 if ID in self.myJobID:
-                    self.log.info(name+' is running... Time : '+time+\
+                    self.logger.info(name+' is running... Time : '+time+\
                                   ' Machine : '+machine)
             return 
         return log
@@ -69,15 +70,15 @@ class JobControl:
                 if name in args:
                     try:
                         os.system('scancel '+str(ID))
-                        self.log.info(name+' cancelled...')
+                        self.logger.info(name+' cancelled...')
                     except:
-                        self.log.warning('Can not cancel '+name)
+                        self.logger.warning('Can not cancel '+name)
             else:
                 try:
                     os.system('scancel '+str(ID))
-                    self.log.info(name+' cancelled...')
+                    self.logger.info(name+' cancelled...')
                 except:
-                    self.log.warning('Can not cancel '+name)
+                    self.logger.warning('Can not cancel '+name)
         return True
 
     def get_log(self,filename):
