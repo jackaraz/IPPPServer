@@ -17,9 +17,12 @@ class JobControl:
         else:
             self.logger.setLevel(logging.INFO)
         self.submit_log = []
-        self.log_file   = kwargs.get('submit_log','submit.log')
+
+        self.log_path = os.path.join(os.path.expanduser('~').replace('home','batch'),'LOG')
+        self.log_file = os.path.join(self.log_path,'submit.log')
+
         if os.path.isfile(self.log_file):
-            with open(kwargs.get('submit_log','submit.log'),'r') as f:
+            with open(self.log_file,'r') as f:
                 submit_log = f.readlines()
             self.submit_log = [(x.split()[0],int(x.split()[1])) for x in submit_log]
 
