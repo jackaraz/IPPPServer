@@ -24,7 +24,8 @@ class JobControl:
         if os.path.isfile(self.log_file):
             with open(self.log_file,'r') as f:
                 submit_log = f.readlines()
-            self.submit_log = [(x.split()[0],int(x.split()[1])) for x in submit_log]
+            self.submit_log += [(x.split()[0],int(x.split()[1])) for x in submit_log if len(x.split())<4]
+            self.submit_log += [(x.split()[0],int(x.split()[1]),x.split()[2],x.split()[3]) for x in submit_log if len(x.split())==4]
 
     def get_status(self, print_out=False):
         if self.submit_log == []:
@@ -32,12 +33,12 @@ class JobControl:
                 pass
             else:
                 return []
-        os.system('squeue > tmp.log')
-        with open('tmp.log','r') as f:
+        os.system('squeue > .tmp.log')
+        with open('.tmp.log','r') as f:
             jobs = f.readlines()
-        os.remove('tmp.log')
+        os.remove('.tmp.log')
         jobs  = jobs[1:]
-        jobID   = [int(x.split()[0]) for x in jobs[1:]]
+        jobID = [int(x.split()[0]) for x in jobs[1:]]
         me = os.environ.get('LOGNAME',False)
         self.myJobID = []
         time = []
@@ -60,11 +61,19 @@ class JobControl:
 
 
         if print_out:
-            for ID, name, time, machine in log:
-                if ID in self.myJobID:
-                    print(name+' is running... Time : '+time+' Machine : '+machine)
+            self._print_status([x for x in log if x[0] in self.myJobID])
             return 
         return log
+
+
+    def _print_status(self, log):
+        log4 = [x for x in log if len(x)==4]
+        log2 = [x for x in log if len(x)< 4]
+        for ID, name, time, machine in log4:
+            print(name+' is running... Time : '+time+' Machine : '+machine)
+        for ID, name in log2:
+            print(name+' is running...')
+
 
     def cancel(self,*args):
         for name, ID in self.submit_log:
@@ -99,7 +108,7 @@ class JobControl:
         elif os.path.isfile(self.log_file):
             output = open(self.log_file, 'w')
             for ID, name, time, machine in log:
-                output.write(name+' '+str(ID)+'\n')
+                output.write(name+' '+str(ID)+' '+time+' '+machine+'\n')
             output.close()
             return True
         return True
