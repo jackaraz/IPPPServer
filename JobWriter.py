@@ -94,3 +94,14 @@ class JobWriter:
         os.remove('temp.txt')
         if remove_after_submission:
             os.remove(self.filename+'.sh')
+
+
+
+
+#if __name__=='__main__':
+#    import sys
+#    log = logging.getLogger(__name__)
+#    log.setLevel(logging.INFO)
+#    path = sys.argv[1]
+#    if not os.path.isdir(path):
+#        
