@@ -8,7 +8,7 @@ Created on Thu Jan 30 17:13:27 2020
 """
 
 import os, logging
-from JobControl import JobControl
+from .JobControl import JobControl
 
 
 class JobWriter:

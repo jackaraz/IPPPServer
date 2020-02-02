@@ -50,11 +50,10 @@ class JobControl:
             machine      = [x.split()[7] for x in jobs]
 
         log = []
-        if self.submit_log == []:
-            for name, ID, tm, ws in zip(job_names,self.myJobID, time, machine):
-                log.append((ID, name, tm, ws))
-        else:
-            log = self.submit_log
+
+        for name, ID, tm, ws in zip(job_names,self.myJobID, time, machine):
+            log.append((ID, name, tm, ws))
+
 
         if print_out:
             for ID, name, time, machine in log:
