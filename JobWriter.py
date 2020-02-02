@@ -90,7 +90,7 @@ class JobWriter:
         return ls
 
 
-    def modify_exclude(self,filename):
+    def update_exclude(self,filename):
         if filename.endswith('.sh'):
             filename = filename.split('.sh')[0]
         if os.path.isfile(filename+'.sh'):
