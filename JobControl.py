@@ -59,8 +59,7 @@ class JobControl:
         if print_out:
             for ID, name, time, machine in log:
                 if ID in self.myJobID:
-                    self.logger.info(name+' is running... Time : '+time+\
-                                  ' Machine : '+machine)
+                    print(name+' is running... Time : '+time+' Machine : '+machine)
             return 
         return log
 
@@ -70,15 +69,15 @@ class JobControl:
                 if name in args:
                     try:
                         os.system('scancel '+str(ID))
-                        self.logger.info(name+' cancelled...')
+                        print(name+' cancelled...')
                     except:
-                        self.logger.warning('Can not cancel '+name)
+                        print('Can not cancel '+name)
             else:
                 try:
                     os.system('scancel '+str(ID))
-                    self.logger.info(name+' cancelled...')
+                    print(name+' cancelled...')
                 except:
-                    self.logger.warning('Can not cancel '+name)
+                    print('Can not cancel '+name)
         return True
 
     def get_log(self,filename):
@@ -123,9 +122,9 @@ if __name__=='__main__':
             job = JobControl(submit_log=sys.argv[2])
             job.get_status(print_out=True)
         else:
-            log.error('Can not find '+sys.argv[2])
+            print('Can not find '+sys.argv[2])
     else:
-        log.error('No option called '+sys.argv[1])
+        print('No option called '+sys.argv[1])
 
 
 
