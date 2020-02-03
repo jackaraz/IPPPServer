@@ -60,3 +60,9 @@ It can also run through terminal. To get the status
 ./JobControl.py status /PATH/TO/submit.log
 ./JobControl.py cancel /PATH/TO/submit.log BKG_Haajjj_11 BKG_Haajjj_12
 ```
+
+
+# TODO:
+
+- [ ] Integrate with jenkins. This will allow direct python access to the server variables.
+- [ ] JobControl needs update. Control sequence from global submit.log is not complete
