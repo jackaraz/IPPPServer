@@ -41,18 +41,21 @@ class JobWriter:
 
         self.control = JobControl().update_log()
 
-    def write(self,filename,**kwargs):
-        self.filename = filename
-        file = open(filename+'.sh','w')
+    def write(self,**kwargs):
+        self.filename = kwargs.get('filename', 'job_'+\
+                                   str(max([int(x.split('.sh')[0].split('_')[1]) \
+                                            for x in os.listdir('.') if 'job_' in x])+1)
+                                    )
+        file = open(self.filename+'.sh','w')
         file.write('#!/bin/sh\n')
         if self.mail != 'mailname@durham.ac.uk':
             file.write('#SBATCH --mail-type=ALL\n')
             file.write('#SBATCH --mail-user='+self.mail+'\n')
 
         file.write('#SBATCH --error="'+os.path.join(self.log_path,
-                                                    filename+'.err')+'"\n')
+                                                    self.filename+'.err')+'"\n')
         file.write('#SBATCH --output="'+os.path.join(self.log_path,
-                                                     filename+'.out')+'"\n\n')
+                                                     self.filename+'.out')+'"\n\n')
         occupied = ','.join(self.occupied_list())
         if occupied != '':
             file.write('#SBATCH --exclude='+occupied+'\n\n')
