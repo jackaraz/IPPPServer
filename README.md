@@ -11,6 +11,13 @@ PS: you might want to add IPPPServer to the PYTHONPATH to import it.
 export PYTHONPATH=$PYTHONPATH:/path/to/IPPPServer
 ```
 
+or if you dont want to change your bashrc
+```python
+import sys
+sys.path.append('/path/to/IPPPServer')
+```
+
+
 * JobWriter:
 
 Job writer is a tool to avoid submitting job to the same machine with other people. 
