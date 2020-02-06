@@ -39,13 +39,17 @@ class JobWriter:
         if not os.path.isdir(self.log_path):
             os.mkdir(self.log_path)
 
-        self.control = JobControl().update_log()
+        self.control   = JobControl().update_log()
+        self.JobIDinit = 0
 
-    def write(self,**kwargs):
-        self.filename = kwargs.get('filename', 'job_'+\
-                                   str(max([int(x.split('.sh')[0].split('_')[1]) \
-                                            for x in os.listdir('.') if 'job_' in x]+[0])+1)
-                                    )
+    def write(self,*args,**kwargs):
+        if args == [] or type(args[0]) != str:
+            jobID = max([int(x.split('.sh')[0].split('_')[1]) \
+                            for x in os.listdir('.') if 'jobID_' in x]+\
+                            [self.JobIDinit])+1
+            self.filename = 'jobID_{:03d}'.format(jobID)
+        else:
+            self.filename = args[0]
         file = open(self.filename+'.sh','w')
         file.write('#!/bin/sh\n')
         if self.mail != 'mailname@durham.ac.uk':
@@ -135,6 +139,7 @@ class JobWriter:
             os.remove('.temp.txt')
             if remove_after_submission:
                 os.remove(filename+'.sh')
+                self.jobIDinit += 1
 
 
 
