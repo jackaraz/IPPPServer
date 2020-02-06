@@ -44,7 +44,7 @@ class JobWriter:
     def write(self,**kwargs):
         self.filename = kwargs.get('filename', 'job_'+\
                                    str(max([int(x.split('.sh')[0].split('_')[1]) \
-                                            for x in os.listdir('.') if 'job_' in x])+1)
+                                            for x in os.listdir('.') if 'job_' in x]+[0])+1)
                                     )
         file = open(self.filename+'.sh','w')
         file.write('#!/bin/sh\n')
