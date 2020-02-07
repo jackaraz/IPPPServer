@@ -43,7 +43,7 @@ class JobWriter:
         self.JobIDinit = 0
 
     def write(self,*args,**kwargs):
-        if args == [] or type(args[0]) != str:
+        if args == []:
             jobID = max([int(x.split('.sh')[0].split('_')[1]) \
                             for x in os.listdir('.') if 'jobID_' in x]+\
                             [self.JobIDinit])+1
@@ -139,7 +139,7 @@ class JobWriter:
             os.remove('.temp.txt')
             if remove_after_submission:
                 os.remove(filename+'.sh')
-                self.jobIDinit += 1
+                self.JobIDinit += 1
 
 
 
