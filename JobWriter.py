@@ -39,7 +39,10 @@ class JobWriter:
         if not os.path.isdir(self.log_path):
             os.mkdir(self.log_path)
 
-        self.control   = JobControl().update_log()
+        try:
+            self.control   = JobControl().update_log()
+        except:
+            raise Warning("Check logging...")
         self.JobIDinit = 0
 
     def write(self,*args,**kwargs):
