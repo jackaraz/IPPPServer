@@ -42,7 +42,7 @@ class JobWriter:
         try:
             self.control   = JobControl().update_log()
         except:
-            raise Warning("Check logging...")
+            pass # check this part!!
         self.JobIDinit = 0
 
     def write(self,*args,**kwargs):
