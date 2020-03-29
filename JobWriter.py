@@ -96,7 +96,7 @@ class JobWriter:
             if not i in ls:
                 ls.append(i)
         if len(ls) >= 40:
-            return [x for x in ls if 'ip3-ws' not in x]
+            return [x for x in ls if 'ip3-temp' not in x]
         return ls
 
 
