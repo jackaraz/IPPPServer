@@ -25,7 +25,7 @@ Job writer is a tool to avoid submitting job to the same machine with other peop
 ```python
 from IPPPServer.JobWriter import *
 
-job = JobWriter('PATH/WHERE/CODE/LIVES',['./run_me'])
+job = JobWriter(path='PATH/WHERE/CODE/LIVES',core_command=['./run_me'])
 job.write('myFile',command=['some','args'])
 # path and command args are additional to the initial path and command
 # and will be attached to the initialized path and command
