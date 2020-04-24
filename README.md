@@ -31,6 +31,23 @@ job.write('myFile',command=['some','args'])
 # and will be attached to the initialized path and command
 job.Submit()
 ```
+In case of mass job submissions it is possible to implement it in a for loop, the suggested usage is as follows
+
+```python
+from IPPPServer.JobWriter import *
+import time
+
+job = JobWriter(path='PATH/WHERE/CODE/LIVES',core_command=['./run_me'])
+
+to_run = [('filename', 'some args')]
+
+for filename, arg in to_run:
+    if job.write(filename,command=[arg]):
+        job.Submit()
+    time.sleep(5.)
+```
+5 second sleep time is suggested because it might take some time for job to be registered in the system.
+
 
 * JobControl:
 
