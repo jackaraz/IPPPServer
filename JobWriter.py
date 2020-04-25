@@ -36,6 +36,14 @@ class JobWriter:
         self.log_path   = os.path.join(os.path.expanduser('~').replace('home','batch'),'LOG')
         self.submit_log = os.path.join(self.log_path,'submit.log')
 
+        # in case one needs to source a specific python environment it can be
+        # given separately 
+        self.source = kwargs.get('source',[])
+        if type(self.source) == str:
+            self.source = list(self.source)
+        if type(self.source) != list:
+            raise Warning('Sorce can only be a string or a list of strings.')
+
         if not os.path.isdir(self.log_path):
             os.mkdir(self.log_path)
 
@@ -71,6 +79,11 @@ class JobWriter:
 
         path = os.path.join(self.core_path,kwargs.get('path',''))
         file.write('cd '+path+'\n')
+
+        # retreive source 
+        if len(self.source) != 0:
+            file.write('\n'.join(self.source))
+
         run_command =  kwargs.get('command',[])
         if type(run_command) == str:
             run_command = [run_command]
