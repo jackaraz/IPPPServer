@@ -111,7 +111,7 @@ class JobWriter:
         os.remove('.log.txt')
         for i in ls_temp:
             if self.just_submit:
-                if not i in myjobs:
+                if not i in myjobs and not i in ls:
                     ls.append(i)
             else:
                 if not i in ls:
