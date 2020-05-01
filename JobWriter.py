@@ -57,7 +57,7 @@ class JobWriter:
 
 
     def write(self,*args,**kwargs):
-        if args == []:
+        if len(args) == 0:
             jobID = max([int(x.split('.sh')[0].split('_')[1]) \
                             for x in os.listdir('.') if 'jobID_' in x]+\
                             [self.JobIDinit])+1
