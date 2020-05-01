@@ -107,19 +107,10 @@ class JobWriter:
                                      stdout=subprocess.PIPE,
                                      stderr=subprocess.STDOUT)
         job_list = job_list.stdout.read().decode('utf-8').split('\n')[1:-1]
-        # try:
-        #     job_list = subprocess.run(['squeue'], stdout=subprocess.PIPE)
-        #     job_list = job_list.stdout.decode('utf-8').split('\n')[1:-1]
-        # except:
-        #     job_list = subprocess.check_output(['squeue'])
-        #     job_list = job_list.split('\n')[1:-1]
-        # os.system('squeue > .log.txt')
-        # with open('.log.txt','r') as f:
-        #     job_list = f.readlines()
-        # job_list = job_list[1:len(job_list)]
+
         ls_temp = [x.split()[len(x.split())-1] for x in job_list if not '(' in x]
         myjobs  = [x.split()[len(x.split())-1] for x in job_list if not '(' in x and os.environ['LOGNAME'] in x]
-        
+
         ls = []
         # os.remove('.log.txt')
         for i in ls_temp:
@@ -130,7 +121,11 @@ class JobWriter:
                 if not i in ls:
                     ls.append(i)
         if len(ls) >= 20 or self.just_submit:
-            return [x for x in ls if not 'ip3' in x or x not in myjobs]
+            new_ls = [x for x in ls if ('ip3' not in x)]
+            for elem in myjobs:
+                if elem not in new_ls:
+                    new_ls.append(elem)
+            return new_ls
             #return [x for x in ls if not 'ip3' in x]
         return ls
 
