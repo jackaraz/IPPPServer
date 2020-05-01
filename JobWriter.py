@@ -160,6 +160,7 @@ class JobWriter:
         jobID     = self._submit(filename)
         check_job = self._checkJob(jobID)
 
+        just_submit_default = self.just_submit
         if check_job == -1:
             return
         elif check_job == 0:
@@ -167,6 +168,9 @@ class JobWriter:
             if self.write(filename,command=self.run_command):
                 jobID     = self._submit(filename)
                 check_job = self._checkJob(jobID)
+                self.just_submit = just_submit_default
+                if check_job == 1: 
+                    print(u'\u001b[36m   * '+filename+u': submitted with another job...\u001b[0m')
 
         if check_job == 1:
             submit_log = open(self.submit_log,'a+')
