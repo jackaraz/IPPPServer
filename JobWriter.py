@@ -119,6 +119,7 @@ class JobWriter:
         # job_list = job_list[1:len(job_list)]
         ls_temp = [x.split()[len(x.split())-1] for x in job_list if not '(' in x]
         myjobs  = [x.split()[len(x.split())-1] for x in job_list if not '(' in x and os.environ['LOGNAME'] in x]
+        
         ls = []
         # os.remove('.log.txt')
         for i in ls_temp:
@@ -129,7 +130,7 @@ class JobWriter:
                 if not i in ls:
                     ls.append(i)
         if len(ls) >= 20 or self.just_submit:
-            return [x for x in ls if not 'ip3' in x and x not in myjobs]
+            return [x for x in ls if not 'ip3' in x or x not in myjobs]
             #return [x for x in ls if not 'ip3' in x]
         return ls
 
@@ -189,10 +190,10 @@ class JobWriter:
                                      stderr=subprocess.STDOUT)
         check_job = check_job.stdout.read().decode('utf-8')
         if check_job == '':
-            print(u'\u001b[31m   * '+self.filename+ ': not running...\u001b[0m')
+            print(u'\u001b[31m   * '+self.filename+ u': not running...\u001b[0m')
             return -1
         elif 'ReqNodeNotAvail' in check_job:
-            print(u'\u001b[31m   * '+self.filename+ ': Cant find available node, cancelling...\u001b[0m')
+            print(u'\u001b[31m   * '+self.filename+ u': Cant find available node, cancelling...\u001b[0m')
             os.system('scancel '+jobID)
             return 0
         else:
