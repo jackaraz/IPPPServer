@@ -101,12 +101,12 @@ class JobWriter:
         """
         os.system('squeue > .log.txt')
         with open('.log.txt','r') as f:
-            ls = f.readlines()
-        ls = ls[1:len(ls)]
-        ls_temp = [x.split()[len(x.split())-1] for x in ls if not '(' in x]
+            job_list = f.readlines()
+        job_list = job_list[1:len(job_list)]
+        ls_temp = [x.split()[len(x.split())-1] for x in job_list if not '(' in x]
         me = os.environ.get('LOGNAME',False)
         if me != False:
-            myjobs = [x.split()[len(x.split())-1] for x in ls if not '(' in x and me in x]
+            myjobs = [x.split()[len(x.split())-1] for x in job_list if not '(' in x and me in x]
         ls = []
         os.remove('.log.txt')
         for i in ls_temp:
