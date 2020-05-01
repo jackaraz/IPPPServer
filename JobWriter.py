@@ -83,7 +83,7 @@ class JobWriter:
 
         # retreive source 
         if len(self.source) != 0:
-            file.write('\n'.join(self.source))
+            file.write('\n'.join(self.source)+'\n\n')
 
         run_command =  kwargs.get('command',[])
         if type(run_command) == str:
