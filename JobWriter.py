@@ -103,13 +103,18 @@ class JobWriter:
             ls = f.readlines()
         ls = ls[1:len(ls)]
         ls_temp = [x.split()[len(x.split())-1] for x in ls if not '(' in x]
+        me = os.environ.get('LOGNAME',False)
+        if me != False:
+            myjobs = [x.split()[len(x.split())-1] for x in ls if not '(' in x and me in x]
         ls = []
         os.remove('.log.txt')
         for i in ls_temp:
             if not i in ls:
                 ls.append(i)
-        if len(ls) >= 40:
-            return [x for x in ls if not (x.startswith('ip3-temp') and x.startswith('ip3-ws'))]
+        if len(ls) >= 20:
+            if me != False:
+                return [x for x in ls if not 'ip3' in x and x not in myjobs]
+            return [x for x in ls if not 'ip3' in x]
         return ls
 
 
