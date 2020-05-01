@@ -35,6 +35,7 @@ class JobWriter:
         self.mail       = kwargs.get('mail','mailname@durham.ac.uk')
         self.log_path   = os.path.join(os.path.expanduser('~').replace('home','batch'),'LOG')
         self.submit_log = os.path.join(self.log_path,'submit.log')
+        self.just_submit = kwargs.get('just_submit',False)
 
         # in case one needs to source a specific python environment it can be
         # given separately 
@@ -109,9 +110,13 @@ class JobWriter:
         ls = []
         os.remove('.log.txt')
         for i in ls_temp:
-            if not i in ls:
-                ls.append(i)
-        if len(ls) >= 20:
+            if self.just_submit:
+                if not i in myjobs:
+                    ls.append(i)
+            else:
+                if not i in ls:
+                    ls.append(i)
+        if len(ls) >= 20 and not self.just_submit:
             if me != False:
                 return [x for x in ls if not 'ip3' in x and x not in myjobs]
             return [x for x in ls if not 'ip3' in x]
