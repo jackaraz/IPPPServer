@@ -120,7 +120,7 @@ class JobWriter:
             else:
                 if not i in ls:
                     ls.append(i)
-        if len(ls) >= 20 or self.just_submit:
+        if len(ls) >= 40 or self.just_submit:
             new_ls = [x for x in ls if ('ip3' not in x)]
             for elem in myjobs:
                 if elem not in new_ls:
