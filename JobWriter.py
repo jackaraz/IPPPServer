@@ -41,7 +41,7 @@ class JobWriter:
         # given separately 
         self.source = kwargs.get('source',[])
         if type(self.source) == str:
-            self.source = list(self.source)
+            self.source = [self.source]
         if type(self.source) != list:
             raise Warning('Sorce can only be a string or a list of strings.')
 
@@ -152,7 +152,7 @@ class JobWriter:
             print('Can not find '+filename+'.sh')
 
 
-    def Submit(self,remove_after_submission=False,_try=0, **params):
+    def Submit(self,remove_after_submission=False, **params):
         filename = params.get('filename',self.filename)
         if filename.endswith('.sh'):
             filename = filename.split('.sh')[0]
