@@ -89,4 +89,6 @@ It can also run through terminal. To get the status
 # TODO:
 
 - [ ] Integrate with jenkins. This will allow direct python access to the server variables.
-- [ ] JobControl needs update. Control sequence from global submit.log is not complete
+- [ ] JobControl needs update. Control sequence from global submit.log is not complete.
+- [ ] use a global job object to simplify the code.
+- [ ] write job during submission to save time.
