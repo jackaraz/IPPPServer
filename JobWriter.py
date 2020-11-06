@@ -66,14 +66,36 @@ class JobWriter:
             self.filename = args[0]
         file = open(self.filename+'.sh','w')
         file.write('#!/bin/sh\n')
+        file.write('#SBATCH --job-name="'+self.filename+'"\n')
         if self.mail != 'mailname@durham.ac.uk':
-            file.write('#SBATCH --mail-type=ALL\n')
+            file.write('#SBATCH --mail-type=END\n')
             file.write('#SBATCH --mail-user='+self.mail+'\n')
 
+        if kwargs.get('cpu',False):
+            file.write('#SBATCH --partition=cpu\n')
+        if kwargs.get('export',False):
+            file.write('#SBATCH --export=ALL\n')
+
+        self.run_command = kwargs.get('command',[])
+        if type(self.run_command) == str:
+            self.run_command = [self.run_command]
+        commands = {}
+        if len(self.run_command)> 0:
+            single_cmd   = [x for x in self.run_command if type(x) == str]
+            parallel_cmd = [x for x in self.run_command if type(x) == list]
+            if len(single_cmd) > 0:
+                run_command = self.core_command + single_cmd
+                commands[0] = (len(parallel_cmd)>0)*'srun '+' '.join(run_command)+'\n'
+            for ix, cmd in enumerate(parallel_cmd):
+                run_command    = self.core_command + cmd
+                commands[ix+(len(commands.keys())>0)*1] = 'srun '+' '.join(run_command)+'\n'
+        else:
+            commands[0] = ' '.join(self.core_command)
+
         file.write('#SBATCH --error="'+os.path.join(self.log_path,
-                                                    self.filename+'.err')+'"\n')
+                                                    self.filename+(len(commands.keys())>1)*'_%j'+'.err')+'"\n')
         file.write('#SBATCH --output="'+os.path.join(self.log_path,
-                                                     self.filename+'.out')+'"\n\n')
+                                                     self.filename+(len(commands.keys())>1)*'_%j'+'.out')+'"\n\n')
         occupied = ','.join(self.occupied_list())
         if occupied != '':
             file.write('#SBATCH --exclude='+occupied+'\n\n')
@@ -85,13 +107,10 @@ class JobWriter:
 
         # retreive source 
         if len(self.source) != 0:
-            file.write('\n'.join(self.source)+'\n\n')
+            file.write('\n'.join(['srun '+x for x in self.source])+'\n\n')
 
-        self.run_command =  kwargs.get('command',[])
-        if type(self.run_command) == str:
-            self.run_command = [self.run_command]
-        run_command = self.core_command + self.run_command
-        file.write(' '.join(run_command)+'\n')
+        for key, cmd in commands.items():
+            file.write(cmd)
         file.write('exit 0\n')
         file.close()
         return True
