@@ -107,7 +107,7 @@ class JobWriter:
 
         # retreive source 
         if len(self.source) != 0:
-            file.write('\n'.join(['srun '+x for x in self.source])+'\n\n')
+            file.write('\n'.join(self.source)+'\n\n')
 
         for key, cmd in commands.items():
             file.write(cmd)
