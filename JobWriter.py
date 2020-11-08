@@ -10,6 +10,21 @@ Created on Thu Jan 30 17:13:27 2020
 import os, logging, subprocess
 from .JobControl import JobControl
 
+"""
+#!/bin/bash
+#SBATCH --job-name="NAME" 
+#SBATCH --mail-type=END                 # when to send mail BEGIN END FAIL REQUEUE ALL
+#SBATCH --mail-user=mail address
+#SBATCH --error="XXX-%j.err"
+#SBATCH
+#SBATCH
+#SBATCH
+#SBATCH
+#SBATCH
+"""
+
+
+
 
 class JobWriter:
     def __init__(self,path=os.getcwd(),core_command='\n', **kwargs):
@@ -110,8 +125,8 @@ class JobWriter:
             file.write('\n'.join(self.source)+'\n\n')
 
         for key, cmd in commands.items():
-            file.write(cmd)
-        file.write('exit 0\n')
+            file.write(cmd+(not cmd.endswith('\n'))*'\n')
+        file.write('\n\n\nexit 0\n')
         file.close()
         return True
 
@@ -227,11 +242,3 @@ class JobWriter:
         return sbatch.split()[-1]
 
 
-
-#if __name__=='__main__':
-#    import sys
-#    log = logging.getLogger(__name__)
-#    log.setLevel(logging.INFO)
-#    path = sys.argv[1]
-#    if not os.path.isdir(path):
-#        
